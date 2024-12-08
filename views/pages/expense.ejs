@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <link rel="stylesheet" href="/css/common.css">
+            <link rel="stylesheet" href="/css/expense.css">
+        </head>
+        <body>
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">Manage Expense</li>
+                        <li><a href="/credits">Credits</a></li>
+                        <li><a href="/lended">Money Lended</a></li>
+                    </ul>
+                </nav>
+                <div class="main">
+                    <div class="expense-full-details">
+                        <div class="manage-expense">
+                            <h1>Manage Expense</h1>
+                            <div class="add-expense">
+                                <form action="/expense/add" method="post">                    
+                                    <div class="input-item">
+                                        <input type="text" name="Details" id="Details" placeholder="Details" required>
+                                    </div>
+                                    <div class="input-item ">
+                                        <input type="text" name="Category" id="Category" placeholder="Category" required>
+                                    </div>
+                                    <div class="input-item">
+                                        <input type="number" name="Price" id="Price" placeholder="Price" required>
+                                    </div>
+                                    <div class="input-item">
+                                        <input type="date" name="Date" id="Date" placeholder="Date" required>
+                                    </div>
+                                         <button type="submit">+</button>
+                                </form> 
+                            </div>
+                            <div class="expense-list-container">
+                                <% expenses.forEach(exp => { %>
+                                    <div class="expense-item" id=<%= exp._id %>>
+                                        <span class="details"><%= exp.details %></span>
+                                        <span class="category"><%= exp.type %></span>
+                                        <span class="price"><%= exp.amount %></span>
+                                        <span class="date"><%= exp.date %></span>
+                                        <a href="/expense/remove?id=<%= exp._id %>"><button>X</button></a>
+                                    </div>
+                                <% }) %>
+                                <div class="item-navigator">
+                                    <a href=<%=`/expense?pg=${page-1}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&Date=${query.date||''}` %>><button class="left"> &larr; </button></a>
+                                    <span class="item-page-no"><%= page %></span>
+                                    <a href=<%=`/expense?pg=${page+1}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&Date=${query.date||''}` %>><button class="right"> &rarr; </button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter">
+                            <h2>Filter</h2>
+                            <form action="/expense" method="get">
+                                <div class="input-item">
+                                    <input type="text" name="Details" id="Details" placeholder="Details" value="<%=query.details || '' %>">
+                                </div>
+                                <div class="input-item ">
+                                    <input type="text" name="Category" id="Category" placeholder="Category" value="<%=query.type || '' %>">
+                                </div>
+                                <div class="input-item">
+                                    <input type="number" name="Price" id="Price" placeholder="Price" value="<%=query.amount || '' %>">
+                                </div>
+                                <div class="input-item">
+                                    <input type="date" name="Date" id="Date" placeholder="Date" value="<%=query.date || '' %>">
+                                </div>
+                                <div class="buttons">
+                                    <button type="submit">&#x1F50E;</button>
+                                    <button type="reset">&#128472;</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <div class="expense-analysis">
+                        <span class="month"> This month : <%= totals.month %></span>
+                        <span class="year">This year : <%= totals.year %></span>
+                        <span class="total">Total : <%= totals.total %></span>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+</body>
+</html>

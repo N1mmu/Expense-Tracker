@@ -1,0 +1,71 @@
+:root{
+    --primaryBg: rgb(48, 48, 48);
+    --secondaryBg: rgb(39, 39, 39);
+    --navShadow: rgb(26, 26, 26);
+    --primartText: rgb(202, 202, 202);
+    --inactiveNavText: rgb(117, 117, 117);
+    --inactiveNavTextHover: rgb(168, 168, 168);
+    --activeNavText: rgb(214, 214, 214);
+}
+
+body{
+    background-color: var(--primaryBg);
+}
+
+@font-face {
+    font-family: 'nav-ff';
+    src: url('/font/Hind-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+div.hidden {
+    display: none;
+}
+.container{
+    display: flex;
+    gap: 25px;
+    width: 100%;
+    height: 100%;
+}
+
+nav{
+    height: 100%;
+    width: 220px;
+    box-shadow: 1px 2px 5px var(--navShadow);
+    background-color: var(--secondaryBg);
+}
+
+nav > ul {
+    margin: 0;
+    width: auto;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.4vh;
+    font-family: 'nav-ff';
+    font-weight: 600;
+    font-size: 18px;
+    color: rgb(150, 150, 150);
+}
+
+li.active  {
+    color: var(--activeNavText);
+}
+li.active:hover {
+    cursor: default;
+    color: var(--activeNavText);
+}
+
+li > a:hover{
+    cursor: pointer;
+    color: var(--inactiveNavTextHover);
+}
+
+li > a {
+    text-decoration: none;
+    color: var(--inactiveNavText);
+}
+

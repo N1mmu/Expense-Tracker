@@ -1,0 +1,251 @@
+/************************************************** 
+
+            VARIABLE AND FONTS
+
+***************************************************/
+
+:root{
+    --primaryBg: rgb(48, 48, 48);
+    --secondaryBg: rgb(39, 39, 39);
+    --tertiaryBg:white;
+    --itemBg:rgb(34, 34, 34);
+    --navShadow: rgb(26, 26, 26);
+    --primartText: rgb(170, 170, 170);
+    --secondaryText: black;
+    --tertiaryText: rgb(70, 70, 70);
+    --inactiveNavText: rgb(117, 117, 117);
+    --inactiveNavTextHover: rgb(168, 168, 168);
+    --activeNavText: rgb(214, 214, 214);
+}
+
+
+@font-face {
+    font-family: 'dashboard-ff';
+    src: url('/font/Outfit-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/***************************************
+
+           MAIN CONTAINER
+
+***************************************/
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    color: var(--primartText);
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: 'dashboard-ff';
+    gap:5%;
+    align-items: center;
+}
+
+.expense-full-details{
+    width: 100%;
+    display: flex;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ***************************************** */
+/*       Managing expense container         */
+/* *************************************** */
+
+
+.manage-expense{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    font-family: 'dashboard-ff';
+    gap: 20px;
+}
+
+.manage-expense > h1 {
+    color: var(--activeNavText);
+}
+
+/*******************  
+EXPENSE LIST CSS
+*****************/
+
+.expense-list-container{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* overflow-x: hidden; */
+    width: 100%;
+}
+
+.expense-item{
+    /* border: 1px solid var(--primartText); */
+    background-color: var(--itemBg);
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    color: white;
+    box-shadow: 3px 6px 5px var(--navShadow);
+    /* justify-content: space-between; */
+}
+
+.expense-item > .details {
+    width: 28%;
+}
+.expense-item> .category {
+    width: 27%;
+}
+.expense-item> .price {
+    width: 18%;
+}
+.expense-item> .date {
+    width: 25%;
+}
+.expense-item > a > button {
+    background-color: var(--itemBg);
+    border: 0px;
+    color: white;
+}
+.expense-item > a > button:hover {
+    cursor: pointer;
+}
+
+/*********************  
+FORM FOR ADDING EXPENSE
+*********************/
+
+.add-expense{
+    padding: 10px;
+    /* border: 1px solid var(--primartText); */
+    width: 70%;
+}
+
+.add-expense > form {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 2%;
+}
+
+.add-expense > form > button,
+.filter > form > .buttons > button{
+    background-color: var(--primaryBg);
+    border: 0;
+    font-size: 2rem;
+    color: var(--primartText);
+}
+
+.add-expense > form > button:hover,
+.filter > form > .buttons > button:hover{
+    cursor: pointer;
+}
+
+.input-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+}
+
+input {
+    padding: 8px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: var(--itemBg);
+    border: 1px solid var(--itemBg);
+    box-shadow: 0;
+    color: rgb(255, 255, 255);
+    color-scheme: dark;
+    box-shadow: 4px 5px 2px var(--navShadow);
+}
+
+::placeholder {
+    color: rgb(148, 148, 148);
+}
+
+/*************************
+EXPENSE LIST NAVIGATOR
+*************************/
+
+.item-navigator {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.item-navigator > a > button {
+    background-color: var(--itemBg);
+    color: white;
+    padding: 10px;
+    border-radius: 100%;
+    border: 0px;
+    box-shadow: 3px 5px 5px var(--navShadow);
+}
+
+.item-navigator > a > button:hover {
+    cursor: pointer;
+}
+
+.item-navigator > span {
+    color: white;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+/* *********************************** */
+/*         Search Container           */
+/* ********************************* */
+
+.filter {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2%;
+}
+
+/***********************
+      Filter Body
+**********************/
+
+.filter > form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap:10px;
+}
+
+/*****************
+     Analysis
+*****************/
+
+.expense-analysis {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 10%;
+    font-size: 1.5rem;
+    color: white;
+    /* background-color: rgb(255, 253, 253); */
+    border-radius: 20px;
+    width: 70%;
+}
+
+.expense-analysis > span {
+    background-color: var(--itemBg);
+    border-radius: 20px;
+    box-shadow: 3px 5px 5px var(--navShadow);
+    padding:15px;
+}

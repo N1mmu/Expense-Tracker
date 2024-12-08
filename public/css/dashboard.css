@@ -1,0 +1,96 @@
+:root{
+    --primaryBg: rgb(48, 48, 48);
+    --secondaryBg: rgb(39, 39, 39);
+    --tertiaryBg:white;
+    --itemBg:rgb(34, 34, 34);
+    --navShadow: rgb(26, 26, 26);
+    --primartText: rgb(170, 170, 170);
+    --secondaryText: black;
+    --tertiaryText: rgb(70, 70, 70);
+    --inactiveNavText: rgb(117, 117, 117);
+    --inactiveNavTextHover: rgb(168, 168, 168);
+    --activeNavText: rgb(214, 214, 214);
+}
+
+@font-face {
+    font-family: 'dashboard-ff';
+    src: url('/font/Outfit-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    color: var(--primartText);
+}
+
+.container {
+    width: 100%;
+}
+
+.main{
+    width: 100%;
+    height: 100%;
+    font-family: 'dashboard-ff';
+    display: flex;
+    flex-direction: column;
+}
+
+.main > header > h1 {
+    color: var(--activeNavText);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header > span {
+    margin: 10px;
+    padding: 5px;
+    font-size: 1.5rem;
+}
+
+.graph{
+    display: flex;
+    gap: 10vw;
+}
+
+.donut-graph {
+    width: 35vh;
+    height: 35vh;
+    /* background-color: aqua; */
+}
+
+.bar-graph{
+    width: 120vh;
+    height: 35vh;
+    /* background-color: aqua */
+}
+
+header > span > a > button,
+footer > a > button{
+    background-color: var(--primaryBg);
+    color: white;
+    padding: 5px;
+    border: none;
+    font-size: 1.3rem;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+footer {
+    font-size: 1.6rem;
+}
+footer > button {
+    font-size: 1.5rem;
+}
+footer {
+    position: absolute;
+    bottom: 3%;
+    left: 45%;
+}
