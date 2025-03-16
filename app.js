@@ -5,6 +5,8 @@ const session = require('express-session');
 const port = 3000;
 const connectDB = require('./config/database');
 // Custom modules
+const { DBget , DBdelete , DBinsert , DBsumAmount, dashboardData } = require('./controllers/connection');
+const { mapMonthWeek , getCurrentMonth } =require('./utils/utilities');
 
 // Routes
 const expense  = require('./routes/expenseRoutes');

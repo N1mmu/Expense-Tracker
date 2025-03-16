@@ -7,7 +7,7 @@ const startMonthDate = `${currentYear}-${currentMonth}-00`;
 const endMonthDate = `${currentYear}-${currentMonth}-32`;
 const startYearDate = `${currentYear}-01-00`;
 const endYearate = `${currentYear}-12-32`;
-
+const dateData = {month:0,year:0}
 exports.dashboard=async(req,res) => {
     const db = req.app.locals.db;
     if (!db) {
@@ -15,33 +15,40 @@ exports.dashboard=async(req,res) => {
       }
     const { timespan = 0 } = req.query;
     const timespanNum = Number(timespan);
+    let month = (timespanNum>0)?currentMonth : ((currentMonth+timespanNum)+12)%12;
+    const year = (timespanNum>0)?currentYear-(timespanNum-1): currentYear-Math.floor(Math.abs(currentMonth+timespanNum-12)/12);
+    month = (month<0)?month*-1:month==0?12:month;
+    dateData.month = month;
+    dateData.year = year;
     const categoryData = await dashboardData(db,'category',timespanNum);
     const monthlyDataRaw = await dashboardData(db,'bar',timespanNum);
     const monthlyData = mapMonthWeek(monthlyDataRaw,timespanNum>0);
-    const month = (timespanNum>0)?'':getCurrentMonth(timespanNum);
-    const year = (timespanNum>0)?(new Date().getFullYear())-(timespanNum-1): (new Date().getFullYear())-Math.floor(Math.abs(timespan)/12);
+    const monthName = (timespanNum>0)?'':getCurrentMonth(month);
     res.render('pages/dashboard',
         {
         expenseCategoryCanvas: JSON.stringify(categoryData),
         monthlyExpenseCanvas: JSON.stringify(monthlyData),
         timespan: timespanNum,
-        month: month,
+        month: monthName,
         year: year
     });
 };
 
 
 async function dashboardData(collection,graphType, timespan ) {
-
-    year = (timespan>0)?currentYear+(timespan-1): currentYear+Math.floor(Math.abs(timespan)/12);
-    month = (timespan>0)?currentMonth : currentMonth+(timespan)%12; 
+    // month = (timespan>0)?currentMonth : ((currentMonth+timespan)+12)%12; 
+    // year = (timespan>0)?currentYear+(timespan-1): currentYear-Math.floor(Math.abs(currentMonth+timespan-12)/12);
+    // month = (month<0)?month*-1:month==0?12:month;
+    const month = dateData.month;
+    const year = dateData.year;
+    console.log(year,month);
     if(graphType == 'category'){
         const pipeline =  [
             {
                 $match:{
                     date: {
-                        $gte: (timespan>1)?`${year}`: `${year}-${month}-00`,
-                        $lt: (timespan>1)?`${year+1}`:`${year}-${month}-32`  
+                        $gte: (timespan>1)?`${year}`: `${year}-${month<10?'0'+month:month}-00`,
+                        $lt: (timespan>1)?`${year+1}`:`${year}-${month<10?'0'+month:month}-32`  
                     }
                 }
             },{

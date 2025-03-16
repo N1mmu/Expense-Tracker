@@ -5,9 +5,9 @@ function mapMonthWeek(amountArr,isMonthly) {
     return amountArr.map((amt,i)=>({segment: i+1,amount:amt.amount}));
 }
 
-function getCurrentMonth(timespan){
+function getCurrentMonth(month){
     const monthArr =['January','February','March','April','May','June','July','August','September','October','November','December'];
-    return monthArr[new Date().getMonth()+(timespan%12)];
+    return monthArr[month-1];
 }
 
 module.exports = { mapMonthWeek , getCurrentMonth };

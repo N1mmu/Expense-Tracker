@@ -4,8 +4,8 @@ const { mapMonthWeek , getCurrentMonth } =require('../utils/utilities');
 // Variable declaration
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth()+1;
-const startMonthDate = `${currentYear}-${currentMonth}-00`;
-const endMonthDate = `${currentYear}-${currentMonth}-32`;
+const startMonthDate = `${currentYear}-${currentMonth<10?'0'+currentMonth:currentMonth}-00`;
+const endMonthDate = `${currentYear}-${currentMonth<10?'0'+currentMonth:currentMonth}-32`;
 const startYearDate = `${currentYear}-01-00`;
 const endYearate = `${currentYear}-12-32`;
 
@@ -93,12 +93,12 @@ async function DBsumAmount(collection) {
         ]
     );
     // Calculating monthly total
-    const[{monthTotal}] = await getAggregate(collection,
+    const[{ monthTotal }] = await getAggregate(collection,
         [
             {
                 $match:{
                     date: {
-                        $gte: startMonthDate,
+                        $gt: startMonthDate,
                         $lt: endMonthDate
                     }
                 }
@@ -110,7 +110,7 @@ async function DBsumAmount(collection) {
                 }
             }
         ]
-    );
+    ) ?? [{monthTotal:0}];
     // Calculating yearly total 
     const[{yearTotal}] = await getAggregate(collection,[
         {
@@ -127,17 +127,19 @@ async function DBsumAmount(collection) {
                 yearTotal: {$sum :{ $toDouble : "$amount"}}
             }
         }
-    ]);
+    ]) ?? [{yearTotal:0}];
     
-    sumObj.total = total;
-    sumObj.month = monthTotal;
-    sumObj.year = yearTotal;
+    sumObj.total = total ;
+    sumObj.month = monthTotal ;
+    sumObj.year = yearTotal ;
 
     return sumObj;
 };
 
 async function getAggregate(collection,pipeline){
-    return await collection.aggregate(pipeline).toArray();
+    let result = await collection.aggregate(pipeline).toArray();
+    result = result.length? result : null;
+    return result;
     
 };
 
