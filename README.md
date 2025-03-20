@@ -17,7 +17,7 @@ Just add the uri inside the config.json file like below
 
 ## MongoDb Configurations
 
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/8ee74678-db6c-4b27-ad5c-ab0c38cd9a85)
 
 ## Other configurations
 
