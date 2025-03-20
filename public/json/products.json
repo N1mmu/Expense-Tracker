@@ -1,24 +1,24 @@
 [
     {
         "id":101,
-        "name":"Bear",
-        "img":"/images/bear.avif"
+        "name":"product_name",
+        "img":"/images/image101.avif"
     },
     {
         "id":102,
-        "name":"Bunny",
-        "img":"/images/bunny.avif"
+        "name":"product_name",
+        "img":"/images/image102.avif"
 
     },
     {
         "id":103,
-        "name":"Frog",
-        "img":"/images/frog.avif"
+        "name":"product_name",
+        "img":"/images/image103.avif"
  
     },
     {
         "id":104,
-        "name":"Panda",
-        "img":"/images/panda.avif"
+        "name":"product_name",
+        "img":"/images/image104.avif"
     }
 ]
