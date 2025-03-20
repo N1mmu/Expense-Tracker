@@ -9,11 +9,11 @@ const client = new MongoClient(uri, {
   }
 });
 
-const connectDB = async () => {
+const connectDB = async (collection) => {
     try {
       await client.connect();
       
-      return client.db('Finance').collection('Expense');
+      return client.db('Finance').collection(collection);
     } catch (err) {
       console.error('MongoDB connection error:', err);
       process.exit(1);

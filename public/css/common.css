@@ -69,3 +69,17 @@ li > a {
     color: var(--inactiveNavText);
 }
 
+button:disabled{
+    cursor: not-allowed;
+}
+
+a.disabled {
+    pointer-events: none;
+}
+
+
+
+.hidden {
+    display: none;
+    opacity: 0;
+}

@@ -1,9 +1,3 @@
-/************************************************** 
-
-            VARIABLE AND FONTS
-
-***************************************************/
-
 :root{
     --primaryBg: rgb(48, 48, 48);
     --secondaryBg: rgb(39, 39, 39);
@@ -18,13 +12,13 @@
     --activeNavText: rgb(214, 214, 214);
 }
 
-
 @font-face {
-    font-family: 'expense-ff';
+    font-family: 'credits-ff';
     src: url('/font/Outfit-VariableFont_wght.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 
 /***************************************
 
@@ -43,12 +37,12 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    font-family: 'expense-ff';
+    font-family: 'credits-ff';
     gap:5%;
     align-items: center;
 }
 
-.expense-full-details{
+.credits-full-details{
     width: 100%;
     display: flex;
     gap: 10%;
@@ -57,21 +51,20 @@ body {
 }
 
 /* ***************************************** */
-/*       Managing expense container         */
+/*       Managing Credits container         */
 /* *************************************** */
 
 
-
-.manage-expense{
+.manage-credits{
     margin-top: 6%;
     display: flex;
     flex-direction: column;
     width: 70%;
-    font-family: 'expense-ff';
+    font-family: 'credits-ff';
     gap: 20px;
 }
 
-.manage-expense > h1 {
+.manage-credits > h1 {
     color: var(--activeNavText);
 }
 
@@ -84,10 +77,10 @@ body {
 }
 
 /*******************  
-EXPENSE LIST CSS
+credits LIST CSS
 *****************/
 
-.expense-list-container{
+.credits-list-container{
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -95,7 +88,7 @@ EXPENSE LIST CSS
     width: 100%;
 }
 
-.expense-item{
+.credits-item{
     /* border: 1px solid var(--primartText); */
     background-color: var(--itemBg);
     border-radius: 10px;
@@ -107,61 +100,58 @@ EXPENSE LIST CSS
     /* justify-content: space-between; */
 }
 
-.expense-item > .details {
-    width: 28%;
-}
-.expense-item> .category {
+.credits-item > .details {
     width: 33%;
 }
-.expense-item> .price,.expense-item> .total-price {
+.credits-item> .category {
     width: 33%;
 }
-.expense-item> .date {
+.credits-item> .price, .credits-item> .total-price {
     width: 33%;
 }
-.expense-item > .product {
-    width: 25%;
+.credits-item> .date {
+    width: 33%;
 }
-.expense-item > .quantity {
-    width: 25%;
-}
-.expense-item > a > button {
+.credits-item > a > button {
     background-color: var(--itemBg);
     border: 0px;
     color: white;
 }
-.expense-item > a > button:hover {
+.credits-item > a > button:hover {
     cursor: pointer;
 }
-
+.credits-item > .product {
+    width: 25%;
+}
+.credits-item > .quantity {
+    width: 25%;
+}
 /*********************  
-FORM FOR ADDING EXPENSE
+FORM FOR ADDING CREDITS
 *********************/
 
-.add-expense{
+.add-credit{
     padding: 10px;
     /* border: 1px solid var(--primartText); */
     width: 70%;
 }
 
-.add-expense > form {
+.add-credit > form {
     display: flex;
     /* justify-content: space-between; */
     gap: 2%;
 }
 
-.add-expense > form > button,
-.filter > form > .buttons > button,
-.filter > form > .buttons > a > button{
+.add-credit > form > button,
+.filter > form > .buttons > button{
     background-color: var(--primaryBg);
     border: 0;
     font-size: 2rem;
     color: var(--primartText);
 }
 
-.add-expense > form > button:hover,
-.filter > form > .buttons > button:hover,
-.filter > form > .buttons > a > button:hover{
+.add-credit > form > button:hover,
+.filter > form > .buttons > button:hover{
     cursor: pointer;
 }
 
@@ -208,11 +198,12 @@ select:hover, select:focus{
     color: rgb(148, 148, 148);
 }
 
+
 /**************
  Slider        */
 
  /* The switch - the box around the slider */
-.switch {
+ .switch {
     position: relative;
     display: inline-block;
     width: 78px;
@@ -287,10 +278,9 @@ select:hover, select:focus{
   .header-container > .slider-input-add > .switch {
     width: 63px;
   }
- 
 
 /*************************
-EXPENSE LIST NAVIGATOR
+CREDIT LIST NAVIGATOR
 *************************/
 
 .item-navigator {
@@ -353,7 +343,7 @@ EXPENSE LIST NAVIGATOR
      Analysis
 *****************/
 
-.expense-analysis {
+.credits-analysis {
     position: absolute;
     top: 4%;
     justify-content: center;
@@ -367,7 +357,7 @@ EXPENSE LIST NAVIGATOR
     width: 70%;
 }
 
-.expense-analysis > span {
+.credits-analysis > span {
     /* background-color: var(--itemBg); */
     border-radius: 20px;
     /* box-shadow: 3px 5px 5px var(--navShadow); */

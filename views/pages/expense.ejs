@@ -3,7 +3,7 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
+            <title>Expense</title>
             <link rel="stylesheet" href="/css/common.css">
             <link rel="stylesheet" href="/css/expense.css">
         </head>
@@ -12,80 +12,120 @@
                 <nav>
                     <ul>
                         <li><a href="/dashboard">Dashboard</a></li>
-                        <li class="active">Manage Expense</li>
+                        <li class="active">Expense</li>
                         <li><a href="/credits">Credits</a></li>
-                        <li><a href="/lended">Money Lended</a></li>
+                        <li><a href="/inventory">Inventory</a></li>
                     </ul>
                 </nav>
                 <div class="main">
                     <div class="expense-full-details">
                         <div class="manage-expense">
-                            <h1>Manage Expense</h1>
+                            <div class="header-container">
+                                <h1>Manage Expense</h1>
+                                <div class="slider-input-add">
+                                    <label class="switch">
+                                        <input type="checkbox" id="details-switch">
+                                        <span class="slider round"></span>
+                                      </label>
+                                    <span class="details">details</span>
+                                 </div>
+                            </div>
                             <div class="add-expense">
-                                <form action="/expense/add" method="post">                    
+                                <form action="/expense/add" id="expense-form" method="post">                    
+                                    <div class="input-item ">
+                                        <select name="Category" id="Category" placeholder="Category">
+                                            <option value="Misc" selected>Category</option>
+                                            <option value="Ads">Ads</option>
+                                            <option value="Import">Import</option>
+                                            <option value="RTO">RTO</option>
+                                            <option value="Export">Export</option>
+                                            <option value="Misc">Misc</option>
+                                        </select>
+                                    </div>
                                     <div class="input-item">
                                         <input type="text" name="Details" id="Details" placeholder="Details" required>
-                                    </div>
-                                    <div class="input-item ">
-                                        <input type="text" name="Category" id="Category" placeholder="Category" required>
                                     </div>
                                     <div class="input-item">
                                         <input type="number" name="Price" id="Price" placeholder="Price" required>
                                     </div>
-                                    <div class="input-item">
+                                    <div class="input-item" id="date-div">
                                         <input type="date" name="Date" id="Date" placeholder="Date" required>
                                     </div>
-                                         <button type="submit">+</button>
+                                         <button type="submit" id="add-submit-btn">+</button>
+                                         <div class="slider-input-add">
+                                            <label class="switch">
+                                                <input type="checkbox" <%=((isSafe)?'checked':'')%> id="safe-mode-switch">
+                                                <span class="slider round"></span>
+                                              </label>
+                                            <span class="safe-mode">safe mode</span>
+                                         </div>
                                 </form> 
                             </div>
                             <div class="expense-list-container">
                                 <% expenses.forEach(exp => { %>
                                     <div class="expense-item" id=<%= exp._id %>>
-                                        <span class="details"><%= exp.details %></span>
-                                        <span class="category"><%= exp.type %></span>
-                                        <span class="price"><%= exp.amount %></span>
+                                        <span class="category"><%= exp.category %></span>
+                                        <span class="details detail-item hidden"><%= exp.details %></span>
+                                        <span class="price detail-item hidden"><%= exp.price %></span>
+                                        <span class="total-price"><%= exp.price * ((exp.product)?exp.quantity:1) %></span>
+                                        <% if (exp.product) { %>
+                                            <span class="product detail-item hidden" ><%=exp.product%></span>
+                                            <span class="quantity detail-item hidden"><%=exp.quantity %></span>
+                                        <% } %>
                                         <span class="date"><%= exp.date %></span>
-                                        <a href="/expense/remove?id=<%= exp._id %>"><button>X</button></a>
+                                        <a href="/expense/remove?id=<%= exp._id %>" id="expense-item-delete"><button>X</button></a>
                                     </div>
                                 <% }) %>
                                 <div class="item-navigator">
-                                    <a href=<%=`/expense?pg=${page-1}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&Date=${query.date||''}` %>><button class="left"> &larr; </button></a>
+                                    <a class="<%= (page-1)?'':'disabled' %>" href=<%=`/expense?pg=${(page-1)?page-1:page}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&FromDate=${query.fromDate||''}&ToDate=${query.ToDate||''}` %>><button class="left"> &larr; </button></a>
                                     <span class="item-page-no"><%= page %></span>
-                                    <a href=<%=`/expense?pg=${page+1}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&Date=${query.date||''}` %>><button class="right"> &rarr; </button></a>
+                                    <a href=<%=`/expense?pg=${page+1}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&FromDate=${query.fromDate||''}&ToDate=${query.ToDate||''}` %>><button class="right"> &rarr; </button></a>
                                 </div>
                             </div>
                         </div>
                         <div class="filter">
                             <h2>Filter</h2>
-                            <form action="/expense" method="get">
+                            <form action="/expense" method="get" id="filter-form">
+                                <div class="input-item ">
+                                    <select name="Category" id="Category" placeholder="Category">
+                                        <option value="" selected>Category</option>
+                                        <option value="Ads">Ads</option>
+                                        <option value="Import">Import</option>
+                                        <option value="RTO">RTO</option>
+                                        <option value="Export">Export</option>
+                                        <option value="Misc">Misc</option>
+                                    </select>
+                                </div>
                                 <div class="input-item">
                                     <input type="text" name="Details" id="Details" placeholder="Details" value="<%=query.details || '' %>">
-                                </div>
-                                <div class="input-item ">
-                                    <input type="text" name="Category" id="Category" placeholder="Category" value="<%=query.type || '' %>">
                                 </div>
                                 <div class="input-item">
                                     <input type="number" name="Price" id="Price" placeholder="Price" value="<%=query.amount || '' %>">
                                 </div>
+
+                                <div class="input-item" id="date-filter">
+                                    <input type="date" name="FromDate" id="Date" placeholder="FromDate" value="<%=query.fromDate || '' %>">
+                                </div>
                                 <div class="input-item">
-                                    <input type="date" name="Date" id="Date" placeholder="Date" value="<%=query.date || '' %>">
+                                    <input type="date" name="ToDate" id="Date" placeholder="ToDate" value="<%=query.toDate || '' %>">
                                 </div>
                                 <div class="buttons">
                                     <button type="submit">&#x1F50E;</button>
-                                    <button type="reset">&#128472;</button>
+                                    <a href="/expense?Details=&Category=&Price=&FromDate=&ToDate="><button>&#128472;</button></a>
                                 </div>
                                 
                             </form>
                         </div>
                     </div>
                     <div class="expense-analysis">
-                        <span class="month"> This month : <%= totals.month %></span>
-                        <span class="year">This year : <%= totals.year %></span>
-                        <span class="total">Total : <%= totals.total %></span>
+                        <span class="month"> 💶Month : <%= new Intl.NumberFormat('en-IN').format(totals.month) %></span>
+                        <span class="year">💶Year : <%= new Intl.NumberFormat('en-IN').format(totals.year) %></span>
+                        <span class="total">💶Total : <%= new Intl.NumberFormat('en-IN').format(totals.total) %></span>
                     </div>
                 </div>
             </div>
         </body>
     </div>
 </body>
+<script src="/js/expenseScript.js"></script>
 </html>

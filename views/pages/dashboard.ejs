@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
     <div class="container">
         <nav>
             <ul>
                 <li class="active">Dashboard</li>
-                <li><a href="/expense">Manage Expense</a></li>
+                <li><a href="/expense">Expense</a></li>
                 <li><a href="/credits">Credits</a></li>
-                <li><a href="/lended">Money Lended</a></li>
+                <li><a href="/inventory">Inventory</a></li>
             </ul>
         </nav>
         <div class="main">
             <header>
                 <h1>Dashboard</h1> 
                 <span>
-                    <a href=<%=`/dashboard?timespan=${(timespan>0)?(timespan==1)?0:((1-timespan)*12)-(new Date().getMonth()):(timespan==0)?1:Math.floor((timespan*-1)/12)+1}` %> ><button>&#8593;&#8595;</button></a>
+                    <a href=<%=`/dashboard?timespan=${(timespan>0)?(timespan==1)?0:((1-timespan)*12)-(new Date().getMonth()):(timespan==0)?1:Math.floor((timespan*-1)/12)+1}&type=${type}` %> ><button>&#8593;&#8595;</button></a>
                     <%= (timespan>0)?'Year':'Month' %>
                 </span>
             </header>
+            <div class="selector">
+              <a href=<%=`/dashboard?type=expense&timespan=${timespan}` %>><span class="<%= (type=='expense'||!type)?'active':'inactive' %>">Expense</span></a>
+              <a href=<%=`/dashboard?&type=credits&timespan=${timespan}` %>><span class="<%= (type=='credits')?'active':'inactive' %>">Credits</span></a>
+              <a href=<%=`/dashboard?&type=total&timespan=${timespan}` %>><span class="<%= (type=='total')?'active':'inactive' %>">Total</span></a>
+            </div>
             <div class="graph">
                 <div class="donut-graph">
                     <canvas id="expenseCategory"></canvas>
@@ -32,10 +37,18 @@
                     <canvas id="monthlyExpense"></canvas>
                 </div>
             </div>
+            <div class="category-details">
+              <%  const CategoryData = JSON.parse(expenseCategoryCanvas); %>
+              <% CategoryData.forEach(ele => { %>
+                <div class="category-details-element">
+                  <%= `${(ele.type=='credits')?'💵':'💶'}${ele._id} : ₹${new Intl.NumberFormat('en-IN').format(ele.amount)}` %>
+                </div>
+              <% }) %>
+            </div>
             <footer>
-                <a href=<%=`/dashboard?timespan=${timespan>0?timespan+1:timespan-1}`%>><button>&#8592;</button></a>
+                <a href=<%=`/dashboard?timespan=${timespan>0?timespan+1:timespan-1}&type=${type}`%>><button>&#8592;</button></a>
                 <%= month %> <%= year %>
-                <a href=<%=`/dashboard?timespan=${timespan>0?timespan-1:timespan+1}`%>><button>&#8594;</button></a>
+                <a href=<%=`/dashboard?timespan=${timespan>0?timespan-1:timespan+1}&type=${type}`%>><button>&#8594;</button></a>
             </footer>
         </div>
     </div>
@@ -45,35 +58,41 @@
     Chart.defaults.color = '#FFFFFF';
     const expCategoryData = <%- expenseCategoryCanvas %>;
     const expMonthlyData = <%- monthlyExpenseCanvas %>;
+    const crdMonthlyData = <%- monthlyCreditCanvas %> ?? 0;
+    const dataset = [
+              {
+                label: 'Expense',
+                data: expMonthlyData.map(exp => exp.amount)
+              }
+            ];
+    if("<%- type %>" =="total"){ 
+      dataset.unshift({label:'Credits',
+        data: crdMonthlyData.map(crd => crd.amount)
+      })
+    }
     const chart1 = new Chart(
         document.getElementById('expenseCategory'),
         {
         
-          type: 'doughnut',
-          data: {
-            labels: expCategoryData.map(exp => exp._id),
-            datasets: [
-              {
-                label: 'Expense',
-                data: expCategoryData.map(exp => exp.amount)
-              }
-            ]
-          }
+        type: 'doughnut',
+        data: {
+          labels: expCategoryData.map(exp => exp._id),
+          datasets: [
+            {
+              label: 'Expense',
+              data: expCategoryData.map(exp => exp.amount)
+            }
+          ]
         }
+      }
       );
-    console.log(expMonthlyData);
     const chart2 = new Chart(
         document.getElementById('monthlyExpense'),
         {
             type:'bar',
             data: {
             labels: expMonthlyData.map(exp => exp.segment),
-            datasets: [
-              {
-                label: 'Expense',
-                data: expMonthlyData.map(exp => exp.amount)
-              }
-            ]
+            datasets: dataset
           },
           options:{
             scales: {

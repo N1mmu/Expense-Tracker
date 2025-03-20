@@ -11,6 +11,8 @@ const { mapMonthWeek , getCurrentMonth } =require('./utils/utilities');
 // Routes
 const expense  = require('./routes/expenseRoutes');
 const dashboard  = require('./routes/dashboardRoutes');
+const credits = require('./routes/creditsRoutes');
+const inventory = require('./routes/inventoryRoutes');
 // To Create Session
 
 app.use(session({
@@ -37,11 +39,20 @@ app.use('/chartjs', express.static(path.join(__dirname, 'node_modules/chart.js/d
 //                     Listener
 ///////////////////////////////////////////////////////////////////////
 
-connectDB().then((db) => {
-    app.locals.db = db;
+connectDB('Expense').then((db) => {
+    app.locals.expenseDb = db;
 
-    app.use('/expense',expense);
-    app.use('/dashboard',dashboard);
-
+    connectDB('Credits').then((creditsDb)=>{
+        app.locals.creditsDb = creditsDb;
+        app.use('/dashboard',dashboard);
+        connectDB('Inventory').then((InventoryDb)=>{
+            app.locals.inventoryDb = InventoryDb;
+            app.use('/inventory',inventory);
+            app.use('/expense',expense);
+            app.use('/credits',credits);
+        })
+    
+    })
+    
     app.listen(port, () => console.log('Server running on http://localhost:3000'));
   });

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/credits.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/expense">Expense</a></li>
+                <li class="active">Credits</li>
+                <li><a href="/inventory">Inventory</a></li>
+            </ul>
+        </nav>
+        <div class="main">
+            <div class="credits-full-details">
+                <div class="manage-credits">
+                    <div class="header-container">
+                        <h1>Manage Credits</h1>
+                        <div class="slider-input-add">
+                            <label class="switch">
+                                <input type="checkbox" id="details-switch">
+                                <span class="slider round"></span>
+                              </label>
+                            <span class="details">details</span>
+                         </div>
+                    </div>
+                                <div class="add-credit">
+                            <form action="/credits/add" method="post" id="credit-form">                    
+                                <div class="input-item ">
+                                    <select name="Category" id="Category" placeholder="Category">
+                                        <option value="Misc" selected>Category</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="Funds">Funds</option>
+                                        <option value="Misc">Misc</option>
+                                    </select>
+                                </div>
+                                <div class="input-item">
+                                    <input type="text" name="Details" id="Details" placeholder="Details">
+                                </div>
+                                <div class="input-item">
+                                    <input type="number" name="Price" id="Price" placeholder="Price">
+                                </div>
+                                <div class="input-item" id="date-div">
+                                    <input type="date" name="Date" id="Date" placeholder="Date">
+                                </div>
+                                    
+                                    
+                                     <button type="submit" id="add-submit-btn">+</button>
+                                     <div class="slider-input-add">
+                                        <label class="switch">
+                                            <input type="checkbox" <%=((isSafe)?'checked':'')%> id="safe-mode-switch">
+                                            <span class="slider round"></span>
+                                          </label>
+                                        <span class="safe-mode">safe mode</span>
+                                     </div>
+                                
+                               
+                            </form>
+                        </div>
+                        <div class="credits-list-container">
+                            <% credits.forEach(crd => { %>
+                                <div class="credits-item" id=<%= crd._id %>>
+                                    <span class="category "><%= crd.category %></span>
+                                    <span class="details detail-item hidden"><%= crd.details %></span>
+                                    <span class="price detail-item hidden"><%= crd.price %></span>
+                                    <span class="total-price"><%= crd.price * ((crd.product)?crd.quantity:1) %></span>
+                                    <% if (crd.product) { %>
+                                        <span class="product detail-item hidden"><%=crd.product%></span>
+                                        <span class="quantity detail-item hidden"><%=crd.quantity %></span>
+                                    <% } %>
+                                    <span class="date"><%= crd.date %></span>
+                                    <a href="/credits/remove?id=<%= crd._id %>" id="credits-item-delete"><button>X</button></a>
+                                </div>
+                            <% }) %>
+                            <div class="item-navigator">
+                                <a class="<%= (page-1)?'':'disabled' %>" href=<%=`/credits=${(page-1)?page-1:page}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&FromDate=${query.fromDate||''}&ToDate=${query.ToDate||''}` %>><button class="left"> &larr; </button></a>
+                                <span class="item-page-no"><%= page %></span>
+                                <a href=<%=`/credits=${(page-1)?page-1:page}&Details=${query.details||''}&Category=${query.type||''}&Price=${query.amount||''}&FromDate=${query.fromDate||''}&ToDate=${query.ToDate||''}` %>><button class="right"> &rarr; </button></a>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="filter">
+                        <h2>Filter</h2>
+                        <form action="/credits" method="get" id="filter-form">
+                            <div class="input-item ">
+                                <select name="Category" id="Category" placeholder="Category">
+                                    <option value="" selected>Category</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Funds">Import</option>
+                                    <option value="Misc">Misc</option>
+                                </select>
+                            </div>
+                            <div class="input-item">
+                                <input type="text" name="Details" id="Details" placeholder="Details" value="<%=query.details || '' %>">
+                            </div>
+                            <div class="input-item">
+                                <input type="number" name="Price" id="Price" placeholder="Price" value="<%=query.amount || '' %>">
+                            </div>
+                            <div class="input-item" id="date-filter">
+                                <input type="date" name="FromDate" id="Date" placeholder="FromDate" value="<%=query.fromDate || '' %>">
+                            </div>
+                            <div class="input-item">
+                                <input type="date" name="ToDate" id="Date" placeholder="ToDate" value="<%=query.toDate || '' %>">
+                            </div>
+                            <div class="buttons">
+                                <button type="submit">&#x1F50E;</button>
+                                <button type="reset">&#128472;</button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+            
+            <div class="credits-analysis">
+                <span class="month"> 💵Month : <%= new Intl.NumberFormat('en-IN').format(totals.month) %></span>
+                <span class="year">💵Year : <%= new Intl.NumberFormat('en-IN').format(totals.year) %></span>
+                <span class="total">💵Total : <%= new Intl.NumberFormat('en-IN').format(totals.total) %></span>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/creditsScript.js"></script>
+</html>
