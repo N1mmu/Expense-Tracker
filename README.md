@@ -15,6 +15,15 @@ Just add the uri inside the config.json file like below
 }
 ```
 
+## MongoDb Configurations
+
+![image](https://github.com/user-attachments/assets/8ee74678-db6c-4b27-ad5c-ab0c38cd9a85)
+
+## Other configurations
+
+* modify the product.json in ```/public/json/``` and add your product details
+* add the images in /public/images for those products
+
 Now use node and run index.js and it will run
 
 # want to contribute to my code?
